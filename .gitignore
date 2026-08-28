@@ -1,0 +1,41 @@
+# --- Secrets / config ---
+.env
+.env.*
+!.env.example
+config_local.py
+.streamlit/secrets.toml
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# --- Virtual environments ---
+.venv/
+venv/
+env/
+ENV/
+
+# --- Project-specific run artifacts ---
+last_run_sources.json
+results.json
+results.csv
+*.log
+
+# --- Editor / OS cruft ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Jupyter (in case you prototype in notebooks) ---
+.ipynb_checkpoints/
+
+# --- Testing / coverage ---
+.pytest_cache/
+.coverage
+htmlcov/
