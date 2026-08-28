@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Research & Summarization Agent
 
 An agentic pipeline: given a topic, it **plans** a set of searches, **executes** them via
@@ -68,7 +67,3 @@ build the writer and critic on top.
 
 Writer and critic modules come next (Day 3-5) — this scaffold covers the
 foundation described in the Day 1-2 plan.
-=======
-# research-assistant
-AI agent based research assistant.
->>>>>>> fe5ce07149087800ce19c5b167729e9b34dae416
