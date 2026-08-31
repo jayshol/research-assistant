@@ -25,6 +25,7 @@ last_run_sources.json
 results.json
 results.csv
 *.log
+.cache/
 
 # --- Editor / OS cruft ---
 .vscode/
