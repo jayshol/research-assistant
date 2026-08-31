@@ -10,6 +10,8 @@ from tenacity import (
     retry_if_exception_type,
 )
 from config import GEMINI_API_KEY, LLM_MODEL, MIN_QUERIES, MAX_QUERIES
+from cache import disk_cache
+import usage_tracker
 
 _client = genai.Client(api_key=GEMINI_API_KEY)
 
@@ -40,34 +42,48 @@ Example output format:
     wait=wait_exponential(multiplier=1, min=2, max=20),
     reraise=True,
 )
-def _call_gemini(topic: str):
+def _call_gemini(topic: str, max_output_tokens: int):
     return _client.models.generate_content(
         model=LLM_MODEL,
         contents=f"Topic: {topic}",
         config=types.GenerateContentConfig(
             system_instruction=PLANNER_SYSTEM_PROMPT,
-            max_output_tokens=1000,
+            max_output_tokens=max_output_tokens,
         ),
     )
 
 
-def plan(topic: str) -> list[dict]:
-    """
-    Given a topic, return a list of {"sub_question": ..., "query": ...} dicts.
-    """
-    response = _call_gemini(topic)
-
-    text = response.text.strip()
+def _parse_plan_json(text: str) -> list[dict]:
+    text = text.strip()
     # Defensive cleanup in case the model wraps output in fences despite instructions.
     if text.startswith("```"):
         text = text.strip("`")
         if text.startswith("json"):
             text = text[4:]
         text = text.strip()
+    return json.loads(text)  # may raise json.JSONDecodeError
 
-    try:
-        plan_items = json.loads(text)
-    except json.JSONDecodeError as e:
-        raise ValueError(f"Planner did not return valid JSON:\n{text}") from e
 
-    return plan_items
+@disk_cache
+def plan(topic: str) -> list[dict]:
+    """
+    Given a topic, return a list of {"sub_question": ..., "query": ...} dicts.
+
+    1000 tokens is tight for a full plan (several sub-questions + queries) and
+    can get the response cut off mid-string, producing invalid JSON. If that
+    happens, retry once with a larger budget before giving up -- a silently
+    truncated plan would otherwise crash the whole pipeline.
+    """
+    token_budgets = [2000, 3500]
+    last_text = ""
+
+    for max_output_tokens in token_budgets:
+        response = _call_gemini(topic, max_output_tokens)
+        usage_tracker.track_usage("plan", LLM_MODEL, response)
+        last_text = response.text.strip()
+        try:
+            return _parse_plan_json(last_text)
+        except json.JSONDecodeError:
+            continue  # try again with a bigger budget
+
+    raise ValueError(f"Planner did not return valid JSON:\n{last_text}")
