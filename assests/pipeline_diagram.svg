@@ -1,0 +1,121 @@
+<svg viewBox="0 0 1180 760" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4b5563"/>
+    </marker>
+    <marker id="arrowLoop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b45309"/>
+    </marker>
+  </defs>
+
+  <rect width="1180" height="760" fill="#ffffff"/>
+
+  <text x="40" y="42" font-size="24" font-weight="700" fill="#111827">Research Assistant — Pipeline</text>
+  <text x="40" y="66" font-size="14" fill="#6b7280">topic → plan → search/fetch → classify → write → [critique → revise]* (bounded) → final report</text>
+
+  <!-- ===== Row 1: linear pipeline ===== -->
+
+  <!-- Topic -->
+  <ellipse cx="90" cy="150" rx="60" ry="38" fill="#eef2ff" stroke="#4338ca" stroke-width="2"/>
+  <text x="90" y="146" font-size="14" font-weight="600" text-anchor="middle" fill="#312e81">Topic</text>
+  <text x="90" y="163" font-size="11" text-anchor="middle" fill="#4338ca">(user input)</text>
+
+  <!-- Planner -->
+  <rect x="200" y="112" width="170" height="76" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="285" y="136" font-size="14" font-weight="700" text-anchor="middle" fill="#1e3a8a">Planner</text>
+  <text x="285" y="153" font-size="11" text-anchor="middle" fill="#1e40af">planner.py</text>
+  <text x="285" y="169" font-size="11" text-anchor="middle" fill="#1e40af">Gemini → search queries</text>
+
+  <!-- Search + Fetch -->
+  <rect x="420" y="112" width="180" height="76" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="510" y="132" font-size="14" font-weight="700" text-anchor="middle" fill="#1e3a8a">Search + Fetch</text>
+  <text x="510" y="149" font-size="11" text-anchor="middle" fill="#1e40af">sources.py</text>
+  <text x="510" y="165" font-size="11" text-anchor="middle" fill="#1e40af">Tavily search + page fetch</text>
+  <text x="510" y="179" font-size="10" font-style="italic" text-anchor="middle" fill="#6366f1">cached by topic</text>
+
+  <!-- Classify Sources -->
+  <rect x="650" y="112" width="180" height="76" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="740" y="136" font-size="14" font-weight="700" text-anchor="middle" fill="#1e3a8a">Classify Sources</text>
+  <text x="740" y="153" font-size="11" text-anchor="middle" fill="#1e40af">source_classifier.py</text>
+  <text x="740" y="169" font-size="11" text-anchor="middle" fill="#1e40af">domain heuristics → type label</text>
+
+  <!-- Write Draft -->
+  <rect x="880" y="112" width="180" height="76" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="970" y="136" font-size="14" font-weight="700" text-anchor="middle" fill="#1e3a8a">Write Draft</text>
+  <text x="970" y="153" font-size="11" text-anchor="middle" fill="#1e40af">writer.py</text>
+  <text x="970" y="169" font-size="11" text-anchor="middle" fill="#1e40af">write_report()</text>
+
+  <!-- arrows row 1 -->
+  <line x1="150" y1="150" x2="196" y2="150" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="370" y1="150" x2="416" y2="150" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="600" y1="150" x2="646" y2="150" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="830" y1="150" x2="876" y2="150" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- drop down into loop -->
+  <line x1="970" y1="188" x2="970" y2="260" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ===== Self-correction loop box ===== -->
+  <rect x="330" y="255" width="740" height="330" rx="14" fill="#fffbeb" stroke="#d97706" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="350" y="282" font-size="13" font-weight="700" fill="#92400e">Bounded self-correction loop  (revision_loop.py — up to max_passes)</text>
+
+  <!-- Critique -->
+  <rect x="880" y="300" width="180" height="72" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="970" y="322" font-size="14" font-weight="700" text-anchor="middle" fill="#78350f">Critique</text>
+  <text x="970" y="339" font-size="11" text-anchor="middle" fill="#92400e">critic.py — critique()</text>
+  <text x="970" y="355" font-size="10" font-style="italic" text-anchor="middle" fill="#b45309">flags unsupported / overstated /</text>
+  <text x="970" y="367" font-size="10" font-style="italic" text-anchor="middle" fill="#b45309">missing / invalid citations</text>
+
+  <!-- decision: issues == 0? -->
+  <polygon points="970,410 1060,450 970,490 880,450" fill="#fef9c3" stroke="#a16207" stroke-width="2"/>
+  <text x="970" y="446" font-size="12" font-weight="600" text-anchor="middle" fill="#713f12">0 issues</text>
+  <text x="970" y="461" font-size="12" font-weight="600" text-anchor="middle" fill="#713f12">found?</text>
+
+  <line x1="970" y1="372" x2="970" y2="406" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- decision: passes left? -->
+  <polygon points="620,410 710,450 620,490 530,450" fill="#fef9c3" stroke="#a16207" stroke-width="2"/>
+  <text x="620" y="446" font-size="12" font-weight="600" text-anchor="middle" fill="#713f12">passes</text>
+  <text x="620" y="461" font-size="12" font-weight="600" text-anchor="middle" fill="#713f12">remaining?</text>
+
+  <!-- "no" from issues diamond to passes diamond -->
+  <line x1="880" y1="450" x2="716" y2="450" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="800" y="440" font-size="11" fill="#4b5563">no</text>
+
+  <!-- Revise -->
+  <rect x="530" y="520" width="180" height="72" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="620" y="542" font-size="14" font-weight="700" text-anchor="middle" fill="#78350f">Revise</text>
+  <text x="620" y="559" font-size="11" text-anchor="middle" fill="#92400e">writer.py — revise_report()</text>
+  <text x="620" y="576" font-size="10" font-style="italic" text-anchor="middle" fill="#b45309">rewrites full report</text>
+
+  <!-- "yes" passes -> revise -->
+  <line x1="620" y1="490" x2="620" y2="516" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="632" y="507" font-size="11" fill="#4b5563">yes</text>
+
+  <!-- revise loops back up to critique -->
+  <path d="M 710 556 C 1090 556 1090 336 1064 336" fill="none" stroke="#b45309" stroke-width="2" marker-end="url(#arrowLoop)"/>
+  <text x="1000" y="500" font-size="11" fill="#92400e" text-anchor="middle">re-critique</text>
+
+  <!-- "no" passes remaining -> exit loop unconverged -->
+  <line x1="620" y1="410" x2="620" y2="360" stroke="#4b5563" stroke-width="2"/>
+  <line x1="620" y1="360" x2="880" y2="336" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="4,3"/>
+  <text x="640" y="352" font-size="11" fill="#4b5563">no (limit hit) →</text>
+
+  <!-- "yes" issues==0 -> exit loop converged, goes down out of loop box -->
+  <line x1="970" y1="490" x2="970" y2="640" stroke="#4b5563" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="984" y="470" font-size="11" fill="#4b5563">yes</text>
+
+  <!-- ===== Final report ===== -->
+  <ellipse cx="970" cy="690" rx="110" ry="42" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+  <text x="970" y="685" font-size="14" font-weight="700" text-anchor="middle" fill="#065f46">Final Report</text>
+  <text x="970" y="702" font-size="11" text-anchor="middle" fill="#047857">+ credibility-labeled references</text>
+
+  <!-- Legend -->
+  <rect x="40" y="600" width="16" height="16" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="64" y="613" font-size="11" fill="#374151">One-shot pipeline step</text>
+
+  <rect x="40" y="628" width="16" height="16" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="64" y="641" font-size="11" fill="#374151">Self-correction loop step</text>
+
+  <ellipse cx="48" cy="666" rx="8" ry="8" fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
+  <text x="64" y="670" font-size="11" fill="#374151">Terminal output</text>
+</svg>
